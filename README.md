@@ -3,6 +3,11 @@ DockerSwarmRedis4Cluster
 
 环境 3主机  docker swarm redis4 搭建redis 3主3从集群
 
+// 应为随机分配节点 如果想要固定节点的话 加上label指定就可以
+docker node update --label-add env=nginx worker1
+docker service create --name my_nginx --constraint 'node.labels.env == nginx' nginx
+
+
 先创建redis.conf 内容如下
 
 port 6379
