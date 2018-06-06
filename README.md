@@ -5,6 +5,8 @@ DockerSwarmRedis4Cluster
 
 // 应为随机分配节点 如果想要固定节点的话 加上label指定就可以
 docker node update --label-add env=nginx worker1
+$ docker node update --label-add foo --label-add bar worker1
+
 docker service create --name my_nginx --constraint 'node.labels.env == nginx' nginx
 
 
