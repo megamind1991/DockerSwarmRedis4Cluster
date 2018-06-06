@@ -42,6 +42,52 @@ docker service create \
   gem install redis \
   && wget http://download.redis.io/redis-stable/src/redis-trib.rb \
   && sleep 3600'
+  
+  
+# (4)进入ruby中执行
+
+  首先创建setup.sh
+           REDIS_NUM=6
+           list=""
+           for i in $( seq 1 $REDIS_NUM )
+           do
+             addr=$(getent hosts "redis-$i" | awk '{ print $1 }')
+             list="$list $addr:6379 "
+           done
+
+           ruby /redis-trib.rb create --replicas 1 $list
+  
+  
+  
+  然后redis-boot的具体名字
+  
+  进入ruby
+  docker exec  -i -t redis-boot.1.s65ofkrfxdwoai50huhkb3xmu /bin/bash
+  
+  然后执行 ./setup.sh
+           >>> Creating cluster
+           >>> Performing hash slots allocation on 6 nodes...
+           Using 3 masters:
+           10.9.9.27:6379
+           10.9.9.29:6379
+           10.9.9.34:6379
+           Adding replica 10.9.9.38:6379 to 10.9.9.27:6379
+           Adding replica 10.9.9.41:6379 to 10.9.9.29:6379
+           Adding replica 10.9.9.36:6379 to 10.9.9.34:6379
+           M: edfd4791132cba2ee575b74cf310b13b58f36fb8 10.9.9.27:6379
+              slots:0-5460 (5461 slots) master
+           M: be8f84f67df2f5504461eb5e35a243158db09815 10.9.9.29:6379
+              slots:5461-10922 (5462 slots) master
+           M: 475cbf8478e542d6ac7fed197775c34f09ab5377 10.9.9.34:6379
+              slots:10923-16383 (5461 slots) master
+           S: 18a8aa4ab914cdcb42edd01eb7ca793381a86aa9 10.9.9.36:6379
+              replicates 475cbf8478e542d6ac7fed197775c34f09ab5377
+           S: 3a94b368a59cdfc47cbfb5906b618b2c759e490b 10.9.9.38:6379
+              replicates edfd4791132cba2ee575b74cf310b13b58f36fb8
+           S: 45a7bf45ea3880db87324520cb9c78053ae6d4a3 10.9.9.41:6379
+              replicates be8f84f67df2f5504461eb5e35a243158db09815
+           Can I set the above configuration? (type 'yes' to accept): 
+  
 
 
 
