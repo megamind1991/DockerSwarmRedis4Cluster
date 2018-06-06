@@ -13,7 +13,9 @@ appendonly yes
 
 
 
-创建redis容器服务 注意有个坑 文件以及文件的权限需要放开 不然配置文件在挂载中读取不到
+创建redis容器服务 
+注意有个坑 文件以及文件的权限需要放开 不然配置文件在挂载中读取不到
+           还有就是target一定也要是user/local下面才行 不然貌似也没有权限
 
 docker service create   
 --name "redis-1"   
