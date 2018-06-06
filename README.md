@@ -34,6 +34,7 @@ redis redis-server /usr/local/etc/redis/redis.conf
 
 
 # (3)创建单机版的reids-boot 里面有ruby用来进行redis集群的脚本执行
+
 docker service create \
 --name redis-boot \
 --mount type=bind,source=/home/liujie/redis/mount/,target=/usr/local/etc/redis/ \
@@ -47,6 +48,7 @@ docker service create \
 # (4)进入ruby中执行
 
   首先创建setup.sh
+  
            REDIS_NUM=6
            list=""
            for i in $( seq 1 $REDIS_NUM )
@@ -62,9 +64,12 @@ docker service create \
   然后redis-boot的具体名字
   
   进入ruby
+  
   docker exec  -i -t redis-boot.1.s65ofkrfxdwoai50huhkb3xmu /bin/bash
   
   然后执行 ./setup.sh
+  
+  
            >>> Creating cluster
            >>> Performing hash slots allocation on 6 nodes...
            Using 3 masters:
@@ -90,5 +95,5 @@ docker service create \
   
 
 
-
+参考 https://blog.newnius.com/setup-redis-cluster-based-on-docker-swarm.html
 
